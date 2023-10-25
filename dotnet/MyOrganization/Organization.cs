@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +27,27 @@ namespace MyOrganization
         public Position? Hire(Name person, string title)
         {
             //your code here
+            var positionsList = new List<string>();
+            var resultPos = getPositions(positionsList, this.root, person, title);
+            return resultPos;
+
+        }
+
+        public Position? getPositions(List<string> positions, Position value, Name person, string title)
+        {
+            positions.Add(value.ToString());
+            if (value.ToString() == title)
+            {
+                value.SetEmployee(new Employee(1, person));
+                return value;
+            }
+            else if (value.GetDirectReports().Count > 0)
+            {
+                foreach (var item in value.GetDirectReports())
+                {
+                    getPositions(positions, item, person, title);
+                }
+            }
             return null;
         }
 
